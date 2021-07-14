@@ -2,26 +2,26 @@ import { moduleMetadata, Story, Meta, componentWrapperDecorator } from '@storybo
 
 import { CommonModule } from '@angular/common';
 
-import { TaskListComponent } from './task-list.component';
+import { PureTaskListComponent } from './pure-task-list.component';
 import { TaskComponent } from '../task/task.component';
 
 import * as TaskStories from '../task/task.stories';
 
 export default {
-  component: TaskListComponent,
+  component: PureTaskListComponent,
   decorators: [
     moduleMetadata({
-      //👇 Imports both components to allow component composition with Storybook
-      declarations: [TaskListComponent, TaskComponent],
+      //👇 Imports both components to allow component composition with storybook
+      declarations: [PureTaskListComponent, TaskComponent],
       imports: [CommonModule],
     }),
     //👇 Wraps our stories with a decorator
     componentWrapperDecorator(story => `<div style="margin: 3em">${story}</div>`),
   ],
-  title: 'TaskList',
+  title: 'PureTaskListComponent',
 } as Meta;
 
-const Template: Story<TaskListComponent> = args => ({
+const Template: Story<PureTaskListComponent> = args => ({
   props: {
     ...args,
     onPinTask: TaskStories.actionsData.onPinTask,
@@ -43,6 +43,8 @@ Default.args = {
 
 export const WithPinnedTasks = Template.bind({});
 WithPinnedTasks.args = {
+  // Shaping the stories through args composition.
+  // Inherited data coming from the Default story.
   tasks: [
     ...Default.args.tasks.slice(0, 5),
     { id: '6', title: 'Task 6 (pinned)', state: 'TASK_PINNED' },
@@ -57,6 +59,8 @@ Loading.args = {
 
 export const Empty = Template.bind({});
 Empty.args = {
+  // Shaping the stories through args composition.
+  // Inherited data coming from the Loading story.
   ...Loading.args,
   loading: false,
 };
